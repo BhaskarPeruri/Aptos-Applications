@@ -1,0 +1,15 @@
+[package]
+name = "apps"
+version = "1.0.0"
+authors = []
+
+[addresses]
+apps = 'b5431588d006cbfdcfd6b47c6062e954079dcd3794c03148fc341309662a5994'
+[dev-addresses]
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "mainnet"
+subdir = "aptos-framework"
+
+[dev-dependencies]
