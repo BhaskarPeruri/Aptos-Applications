@@ -42,7 +42,12 @@ module apps::ToDo_List {
 
         let counter = todoList.task_counter + 1;
 
-        let new_task = Task { task_id: counter, addr: signer_addr, content, completed: false };
+        let new_task = Task {
+            task_id: counter,
+            addr: signer_addr,
+            content,
+            completed: false
+        };
 
         //adding the new task into the task table
         table::upsert(&mut todoList.tasks, counter, new_task);

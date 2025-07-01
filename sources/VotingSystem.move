@@ -9,8 +9,7 @@ module apps::VotingSystem {
     const E_WINNER_ALREADY_DECLARED: u64 = 3;
     const E_DUPLICATE_CANDIDATE: u64 = 4;
     const E_ALREADY_VOTED: u64 = 5;
-    const E_NOT_INITIALIZED:u64 = 6;
-    
+    const E_NOT_INITIALIZED: u64 = 6;
 
     struct CandidateList has key {
         //mapping address to no of votes
@@ -142,7 +141,6 @@ module apps::VotingSystem {
         c_store.winner = winner;
     }
 
-
     #[test(admin = @apps)]
     public entry fun test_flow(admin: &signer) acquires CandidateList, VotingList {
         let signer_addr = signer::address_of(admin);
@@ -182,14 +180,14 @@ module apps::VotingSystem {
     #[test]
     #[expected_failure(abort_code = E_NOT_ADMIN)]
 
-    public entry fun test_initialize_not_Owner()  {
+    public entry fun test_initialize_not_Owner() {
         let not_owner = account::create_account_for_test(@0x2);
         initialize(&not_owner);
     }
 
     #[test(admin = @apps)]
     #[expected_failure(abort_code = E_INITIALIZED)]
-    public entry fun test_initialize(admin :signer) {
+    public entry fun test_initialize(admin: signer) {
         initialize(&admin);
         initialize(&admin);
     }
@@ -199,10 +197,8 @@ module apps::VotingSystem {
     public entry fun test_vote_twice(admin: signer) acquires CandidateList, VotingList {
         let store_addr = signer::address_of(&admin);
         let voter1 = account::create_account_for_test(@0x1);
-        let candidate1 = account::create_account_for_test(@0x2);//this is the signer
+        let candidate1 = account::create_account_for_test(@0x2); //this is the signer
         let candidate1_addr = signer::address_of(&candidate1);
-
-
 
         initialize(&admin);
         add_candidate(&admin, candidate1_addr);
@@ -214,7 +210,7 @@ module apps::VotingSystem {
 
     #[test(admin = @apps)]
     #[expected_failure(abort_code = E_NOT_INITIALIZED)]
-    public entry fun test_Error_Inititalized(admin: signer) acquires CandidateList, VotingList{
+    public entry fun test_Error_Inititalized(admin: signer) acquires CandidateList, VotingList {
         let store_addr = signer::address_of(&admin);
         let voter = account::create_account_for_test(@0x1);
         let candidate_addr = @0x2;
@@ -223,7 +219,9 @@ module apps::VotingSystem {
 
     #[test(admin = @apps)]
     #[expected_failure(abort_code = E_WINNER_ALREADY_DECLARED)]
-    public entry fun test_add_candidate_after_winner_declared(admin:&signer) acquires CandidateList, VotingList{
+    public entry fun test_add_candidate_after_winner_declared(
+        admin: &signer
+    ) acquires CandidateList, VotingList {
         let store_addr = signer::address_of(admin);
         let voter1 = account::create_account_for_test(@0x1);
         let voter2 = account::create_account_for_test(@0x2);
@@ -240,5 +238,4 @@ module apps::VotingSystem {
         declare_winner(admin);
         add_candidate(admin, candidate1);
     }
-
 }
